@@ -6,7 +6,7 @@
 # Copyright: (c) 2008 by OBJECTIVE DEVELOPMENT Software GmbH
 # License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
 
-DEVICE  = atmega8
+DEVICE  = atmega88
 F_CPU   = 12000000	# in Hz
 FUSE_L  = # see below for fuse values for particular devices
 FUSE_H  = 
