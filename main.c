@@ -458,10 +458,10 @@ static void hardwareInit(void) {
   USB_CFG_IOPORT =(uchar) ~ ((1 << USB_CFG_DMINUS_BIT) |(1 << USB_CFG_DPLUS_BIT));
 
   /* set baud rate */
-  UBRRH = 0;
-  UBRRL	= 23;			/* 312500Hz at 16MHz clock */
+  UBRR0H = 0;
+  UBRR0L	= 23;			/* 312500Hz at 16MHz clock */
   /*  */
-  UCSRB	= (1<<RXEN) | (1<<TXEN);
+  UCSR0B	= (1<<RXEN0) | (1<<TXEN0);
 
   /* DEBUGGING LED */
 
@@ -488,8 +488,8 @@ int main(void) {
     usbPoll();
 #ifdef TRANSMITTER
     /*    send to Serial MIDI line    */
-    if( (UCSRA & (1<<UDRE)) && uwptr!=irptr ) {
-      UDR = tx_buf[irptr++];
+    if( (UCSR0A & (1<<UDRE0)) && uwptr!=irptr ) {
+      UDR0 = tx_buf[irptr++];
       irptr &= TX_MASK;
     }
 #if USB_CFG_HAVE_FLOWCONTROL == 1
@@ -502,8 +502,8 @@ int main(void) {
 
 #ifdef RECEIVER
     /*    receive from Serial MIDI line    */
-    if( UCSRA & (1<<RXC)) {
-      utxrdy |= parseSerialMidiMessage(UDR);
+    if( UCSR0A & (1<<RXC0)) {
+      utxrdy |= parseSerialMidiMessage(UDR0);
     }
     /* send packets to USB MIDI  */
     if( usbInterruptIsReady() && utxrdy ) {
